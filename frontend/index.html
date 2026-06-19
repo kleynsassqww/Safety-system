@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главная панель - Система учёта инструктажей по ТБ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside>
+    <div class="logo-section">
+      <div class="logo-icon">ТБ</div>
+      <div class="logo-text">Safety System</div>
+    </div>
+    <ul class="nav-links">
+      <li class="active">
+        <a href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Панель управления
+        </a>
+      </li>
+      <li>
+        <a href="employees.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Сотрудники
+        </a>
+      </li>
+      <li>
+        <a href="instructions.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Инструкции / Программы
+        </a>
+      </li>
+      <li>
+        <a href="reports.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Журнал инструктажей
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <div>Версия 1.0.0</div>
+      <div>Система контроля безопасности</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main>
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Панель управления</h1>
+        <p>Краткая сводка состояния инструктажей по технике безопасности</p>
+      </div>
+      <button class="btn-primary" onclick="openBriefingModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Провести инструктаж
+      </button>
+    </div>
+
+    <!-- Analytics Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card cyan">
+        <div class="stat-info">
+          <h3>Сотрудники</h3>
+          <div class="stat-number" id="stat-employees">0</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+        </div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-info">
+          <h3>Инструкции</h3>
+          <div class="stat-number" id="stat-instructions">0</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+        </div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-info">
+          <h3>Проведено в этом месяце</h3>
+          <div class="stat-number" id="stat-month-conducted">0</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-info">
+          <h3>Просрочено инструктажей</h3>
+          <div class="stat-number" id="stat-overdue">0</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content Split -->
+    <div class="dashboard-layout">
+      <!-- Recent Briefings -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Недавние инструктажи</div>
+          <a href="reports.html" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">Весь журнал</a>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Сотрудник</th>
+                  <th>Инструктаж</th>
+                  <th>Дата проведения</th>
+                </tr>
+              </thead>
+              <tbody id="recent-briefings-table">
+                <tr>
+                  <td colspan="3" style="text-align: center; color: var(--text-muted);">Загрузка...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overdue Warnings Widget -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" style="color: var(--danger);">Требуют внимания</div>
+        </div>
+        <div class="card-body">
+          <ul class="simple-list" id="overdue-briefings-list">
+            <li class="simple-list-item" style="border-color: transparent; background: none; justify-content: center; color: var(--text-muted);">
+              Загрузка предупреждений...
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Quick Briefing Conduct Modal -->
+  <div id="briefingModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Регистрация проведения инструктажа</div>
+        <button class="close-btn" onclick="closeBriefingModal()">&times;</button>
+      </div>
+      <form id="briefingForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="b-employee">Сотрудник *</label>
+            <select id="b-employee" class="form-control" required>
+              <option value="">Выберите сотрудника</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="b-instruction">Программа инструктажа *</label>
+            <select id="b-instruction" class="form-control" required>
+              <option value="">Выберите программу</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="b-date">Дата проведения *</label>
+            <input type="date" id="b-date" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="b-instructor">Кто провел (ФИО инструктора) *</label>
+            <input type="text" id="b-instructor" class="form-control" placeholder="Иванов И.И." required>
+          </div>
+          <div class="form-group">
+            <label for="b-notes">Примечания / Результат</label>
+            <textarea id="b-notes" class="form-control" placeholder="Например: Сдал тест, подпись получена"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeBriefingModal()">Отмена</button>
+          <button type="submit" class="btn-primary">Зарегистрировать</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

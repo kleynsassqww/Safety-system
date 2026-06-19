@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Журнал инструктажей - Система учёта инструктажей по ТБ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside>
+    <div class="logo-section">
+      <div class="logo-icon">ТБ</div>
+      <div class="logo-text">Safety System</div>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Панель управления
+        </a>
+      </li>
+      <li>
+        <a href="employees.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Сотрудники
+        </a>
+      </li>
+      <li>
+        <a href="instructions.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Инструкции / Программы
+        </a>
+      </li>
+      <li class="active">
+        <a href="reports.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Журнал инструктажей
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <div>Версия 1.0.0</div>
+      <div>Система контроля безопасности</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main>
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Журнал учета инструктажей</h1>
+        <p>Полная история проведенных обучений с возможностью фильтрации и экспорта</p>
+      </div>
+      <button class="btn-primary" onclick="exportJournalToCSV()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Экспорт в CSV
+      </button>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label for="rep-search">Поиск:</label>
+        <input type="text" id="rep-search" class="form-control" placeholder="ФИО / программа / инструктор..." oninput="filterJournal()">
+      </div>
+      <div class="filter-group">
+        <label for="rep-dept">Отдел:</label>
+        <select id="rep-dept" class="form-control" onchange="filterJournal()">
+          <option value="">Все отделы</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="rep-start-date">С:</label>
+        <input type="date" id="rep-start-date" class="form-control" onchange="filterJournal()">
+      </div>
+      <div class="filter-group">
+        <label for="rep-end-date">По:</label>
+        <input type="date" id="rep-end-date" class="form-control" onchange="filterJournal()">
+      </div>
+      <div class="filter-group">
+        <label for="rep-status">Статус ТБ:</label>
+        <select id="rep-status" class="form-control" onchange="filterJournal()">
+          <option value="all">Все записи</option>
+          <option value="active">Действует</option>
+          <option value="overdue">Просрочен</option>
+          <option value="onetime">Разовый (без срока)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Journal Table -->
+    <div class="card">
+      <div class="card-body" style="padding: 0;">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Сотрудник</th>
+                <th>Отдел</th>
+                <th>Инструктаж / Программа</th>
+                <th>Вид</th>
+                <th>Дата прохождения</th>
+                <th>Следующий инструктаж</th>
+                <th>Кто провел</th>
+                <th>Статус</th>
+                <th>Примечания</th>
+              </tr>
+            </thead>
+            <tbody id="journal-table">
+              <tr>
+                <td colspan="9" style="text-align: center; color: var(--text-muted);">Загрузка журнала...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

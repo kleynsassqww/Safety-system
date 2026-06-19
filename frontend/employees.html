@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сотрудники - Система учёта инструктажей по ТБ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside>
+    <div class="logo-section">
+      <div class="logo-icon">ТБ</div>
+      <div class="logo-text">Safety System</div>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Панель управления
+        </a>
+      </li>
+      <li class="active">
+        <a href="employees.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Сотрудники
+        </a>
+      </li>
+      <li>
+        <a href="instructions.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Инструкции / Программы
+        </a>
+      </li>
+      <li>
+        <a href="reports.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Журнал инструктажей
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <div>Версия 1.0.0</div>
+      <div>Система контроля безопасности</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main>
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Сотрудники</h1>
+        <p>Управление персоналом и просмотр статуса их обучения по ТБ</p>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <button class="btn-secondary" onclick="openDeptModal()">
+          + Новый отдел
+        </button>
+        <button class="btn-primary" onclick="openEmployeeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Добавить сотрудника
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label for="filter-search">Поиск:</label>
+        <input type="text" id="filter-search" class="form-control" placeholder="Поиск по ФИО или должности..." oninput="filterEmployees()">
+      </div>
+      <div class="filter-group">
+        <label for="filter-dept">Отдел:</label>
+        <select id="filter-dept" class="form-control" onchange="filterEmployees()">
+          <option value="">Все отделы</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-status">Статус:</label>
+        <select id="filter-status" class="form-control" onchange="filterEmployees()">
+          <option value="active">Активные</option>
+          <option value="archived">Архивированные</option>
+          <option value="all">Все</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Employees Table -->
+    <div class="card">
+      <div class="card-body" style="padding: 0;">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ФИО</th>
+                <th>Должность</th>
+                <th>Отдел</th>
+                <th>Дата приёма</th>
+                <th>Последний инструктаж</th>
+                <th>Статус</th>
+                <th style="width: 120px; text-align: right;">Действия</th>
+              </tr>
+            </thead>
+            <tbody id="employees-table">
+              <tr>
+                <td colspan="7" style="text-align: center; color: var(--text-muted);">Загрузка списка сотрудников...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add / Edit Employee Modal -->
+  <div id="employeeModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="employee-modal-title">Добавление сотрудника</div>
+        <button class="close-btn" onclick="closeEmployeeModal()">&times;</button>
+      </div>
+      <form id="employeeForm">
+        <input type="hidden" id="emp-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="emp-name">ФИО сотрудника *</label>
+            <input type="text" id="emp-name" class="form-control" placeholder="Иванов Иван Иванович" required>
+          </div>
+          <div class="form-group">
+            <label for="emp-position">Должность *</label>
+            <input type="text" id="emp-position" class="form-control" placeholder="Менеджер по продажам / Токарь 3 разряда" required>
+          </div>
+          <div class="form-group">
+            <label for="emp-dept">Отдел *</label>
+            <select id="emp-dept" class="form-control" required>
+              <option value="">Выберите отдел</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="emp-date">Дата приёма на работу *</label>
+            <input type="date" id="emp-date" class="form-control" required>
+          </div>
+          <div class="form-group" id="emp-status-group" style="display: none;">
+            <label for="emp-status">Статус</label>
+            <select id="emp-status" class="form-control">
+              <option value="active">Активный</option>
+              <option value="archived">В архиве</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeEmployeeModal()">Отмена</button>
+          <button type="submit" class="btn-primary">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Department Modal -->
+  <div id="deptModal" class="modal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <div class="modal-title">Новый отдел</div>
+        <button class="close-btn" onclick="closeDeptModal()">&times;</button>
+      </div>
+      <form id="deptForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="dept-name">Название отдела *</label>
+            <input type="text" id="dept-name" class="form-control" placeholder="Например: Цех сборки" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeDeptModal()">Отмена</button>
+          <button type="submit" class="btn-primary">Создать</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
